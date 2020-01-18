@@ -1,0 +1,7 @@
+node_exporter_version: 0.18.1
+varnish_exporter_version: 1.5.2
+# fix this so we can reference the inventory instead?
+cache_name: bla_name
+cache_server: bla-new-server-to-deploy
+mediawiki_server: bla-server-that-should-be-allowed-to-send-purges
+monitor_server: bla-server-running-prometheus

@@ -1,0 +1,42 @@
+- name: add nginx repo
+  apt_repository:
+      repo: ppa:nginx/mainline
+- name: install nginx
+  apt:
+    name: nginx
+    update_cache: yes
+- name: configure nginx defaults
+  copy: 
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+- name: configure nginx domain
+  copy: 
+    src: gbf.wiki.conf
+    dest: /etc/nginx/gbf.wiki.conf
+- name: create folder for log files
+  file:
+    path: /var/log/nginx/gbf.wiki
+    state: directory
+- name: make folder for certificates
+  file: 
+    path: /root/gbf.wiki/certs
+    state: directory
+- name: copy ssl certificates
+  copy:
+    src:    '{{ item.src }}'
+    dest:   '{{ item.dest }}'
+    owner:  root
+    group:  root
+  no_log: true
+  with_items:
+    - src:  '{{ ssl_certificate }}'
+      dest: /root/gbf.wiki/certs/fullchain.pem
+    - src:  '{{ ssl_private_key }}'
+      dest: /root/gbf.wiki/certs/privkey.pem
+    - src:  '{{ ssl_dh_param }}'
+      dest: /root/gbf.wiki/certs/dhparams.pem
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

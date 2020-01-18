@@ -1,0 +1,23 @@
+---
+- name: install varnish, nginx and prometheus exporters
+  hosts: cache
+  remote_user: root
+  roles:
+    - common
+    - ufw
+    - varnish
+    - nginx
+    - prometheus_exporter
+# - name: add new cache server to monitoring
+#   hosts: monitor
+#   remote_user: root
+#   roles:
+#     - prometheus_gulp
+# - name: add new cache server to mediawiki
+#   hosts: mediawiki
+#   remote_user: root
+#   roles:
+#     - ufw
+
+
+

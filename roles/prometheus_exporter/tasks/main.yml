@@ -1,0 +1,46 @@
+- name: download and extract node_exporter
+  unarchive:
+    remote_src: yes
+    src: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
+    dest: /tmp
+- name: move node_exporter to /usr/local/bin
+  command: mv /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter /usr/local/bin/node_exporter
+- name: add user for node_exporter
+  command: useradd -rs /bin/false node_exporter
+- name: copy systemd service file for node_exporter
+  copy: 
+    src: node_exporter.service
+    dest: /etc/systemd/system/node_exporter.service
+- name: enable service for node_exporter
+  systemd:
+    name: node_exporter
+    state: started
+    daemon_reload: yes
+    enabled: yes
+    masked: no
+- name: download and extract varnish_exporter
+  unarchive:
+    remote_src: yes
+    src: https://github.com/jonnenauha/prometheus_varnish_exporter/releases/download/{{ varnish_exporter_version }}/prometheus_varnish_exporter-{{ varnish_exporter_version }}.linux-amd64.tar.gz
+    dest: /tmp
+- name: move varnish_exporter to /usr/local/bin
+  command: mv /tmp/prometheus_varnish_exporter-{{ varnish_exporter_version }}.linux-amd64/prometheus_varnish_exporter /usr/local/bin/prometheus_varnish_exporter
+- name: copy systemd service file for varnish_exporter
+  copy: 
+    src: varnish_exporter.service
+    dest: /etc/systemd/system/varnish_exporter.service
+- name: enable service for varnish_exporter
+  systemd:
+    name: varnish_exporter
+    state: started
+    daemon_reload: yes
+    enabled: yes
+    masked: no
+- name: clean up folder created by unarchiving
+  file:
+    path: /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64
+    state: absent
+- name: clean up folder created by unarchiving
+  file:
+    path: /tmp/prometheus_varnish_exporter-{{ varnish_exporter_version }}.linux-amd64
+    state: absent

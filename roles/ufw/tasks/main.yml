@@ -1,0 +1,47 @@
+- name: delete openssh rule
+  ufw:
+    rule: allow
+    name: OpenSSH
+    delete: yes
+- name: allow all access to port 22 (ssh)
+  ufw:
+    rule: allow
+    port: '22'
+    proto: 'tcp'
+- name: ratelimit ssh
+  ufw:
+    rule: limit
+    port: ssh
+    proto: tcp
+- name: allow all access to port 443 (https)
+  ufw:
+    rule: allow
+    port: '443'
+    proto: 'tcp'
+- name: allow all access to port 80 (http)
+  ufw:
+    rule: allow
+    port: '80'
+    proto: 'tcp'
+- name: allow access to varnish on port 6081 from mediawiki server
+  ufw:
+    rule: allow
+    direction: in
+    src: "{{ mediawiki_server }}"
+    to_port: '6081'
+- name: allow access to prometheus node_exporter on port 9100 from prometheus server
+  ufw:
+    rule: allow
+    direction: in
+    src: "{{ monitor_server }}"
+    to_port: '9100'
+- name: allow access to prometheus varnish exporter on port 9131 from prometheus server
+  ufw:
+    rule: allow
+    direction: in
+    src: "{{ monitor_server }}"
+    to_port: '9131'
+- name: deny all default inc and enable
+  ufw: 
+    state: enabled
+    policy: deny

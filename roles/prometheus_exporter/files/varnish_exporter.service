@@ -1,0 +1,10 @@
+[Unit]
+Description=Varnish Exporter
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/prometheus_varnish_exporter
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+[cache]
+bla-new-server-to-deploy
+[mediawiki]
+bla-server-that-should-be-allowed-to-send-purges
+[monitor]
+bla-server-running-prometheus

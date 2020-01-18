@@ -1,0 +1,8 @@
+- name: sets hostname
+  hostname:
+    name: "{{ cache_name }}"
+- name: upgrade packages before we're doing anything
+  apt:
+    name: "*"
+    state: latest
+    update_cache: yes

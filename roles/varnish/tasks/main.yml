@@ -1,0 +1,17 @@
+  - name: install the package for varnish
+    apt:
+      name: varnish
+  # double check if this part works
+  - name: copy fancy 503 page
+    copy: 
+      src: error503.html
+      dest: /etc/varnish/error503.html
+  - name: configure varnish
+    template: 
+      src: default.vcl.j2
+      dest: /etc/varnish/default.vcl
+  - name: restart varnish
+    service:
+      name: varnish
+      state: started
+      enabled: yes
