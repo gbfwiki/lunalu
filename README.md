@@ -1,5 +1,5 @@
-# Lunalu
-An ansible playbook to quickly bootstrap a complete front-end cache server on Ubuntu 19.10
+# lunalu
+Ansible playbook to quickly bootstrap a complete frontend cache server on Ubuntu 19.10
 
 ## contains
 
