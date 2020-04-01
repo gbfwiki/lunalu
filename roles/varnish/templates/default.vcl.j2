@@ -61,11 +61,6 @@ sub vcl_recv {
       return (pass);
   }
 
-  # Force lookup if the request is a no-cache request from the client.
-  if (req.http.Cache-Control ~ "no-cache") {
-      ban(req.url);
-  }
-
   # normalize Accept-Encoding to reduce vary
   if (req.http.Accept-Encoding) {
     if (req.http.User-Agent ~ "MSIE 6") {
